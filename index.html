@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Referee Console</title>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <h1>Referee Console</h1>
+  <form id="commandForm">
+    <label for="player">Player:</label>
+    <select name="player" id="playerSelect">
+      <option value="player1">Player 1</option>
+      <option value="player2">Player 2</option>
+    </select>
+    <br>
+    <label for="status">Command Input:</label>
+    <input type="text" name="status" id="statusInput">
+    <br>
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    const socket = io();
+
+    const commandForm = document.getElementById('commandForm');
+
+    commandForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const player = document.getElementById('playerSelect').value;
+      const status = document.getElementById('statusInput').value;
+
+      const command = {
+        player: player,
+        server_status: status,
+      };
+
+      socket.emit('command', command);
+    });
+  </script>
+</body>
+</html>
