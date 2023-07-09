@@ -22,6 +22,11 @@ rl.question('Enter the password: ', (password) => {
     }
   });
 
+  socket.on('playerRole', (data) => {
+    myRole = data.player;
+    console.log('you are', myRole);
+  });
+
 // ROS publish object state
 // const objectStatus = [
 //   [0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1],
@@ -34,10 +39,10 @@ rl.question('Enter the password: ', (password) => {
 // Receive command from server
   socket.on('command', (data) => {
     console.log('Received command:', data);
-    if (data.player === 'player1') {
+    if (data.player === myRole) {
       // Handle the command for player1
       // ...
-    } else if (data.player === 'player2') {
+    } else if (data.player === myRole) {
       // Handle the command for player2
       // ...
     }
