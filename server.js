@@ -2,7 +2,11 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const { v4: uuidv4 } = require('uuid');
 
+const roomId = uuidv4();
+
+let password = 'defaultpassword';
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
@@ -12,10 +16,27 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   console.log('A client is connected! ID: ' + socket.id);
   socket.on('command', (data) => {
-    console.log('Received command:', data);
+    console.log('Published command:', data);
     io.emit('command', data);
   });
   
+  socket.on('join', (data) => {
+    if (data.password === password) {
+      socket.join(roomId);
+      console.log(`Client ${socket.id} joined the room.`);
+      socket.emit('authResult', { success: true }); // Send authentication success result to the client
+    } else {
+      console.log(`Client ${socket.id} entered the wrong password.`);
+      socket.disconnect();
+      socket.emit('authResult', { success: false }); // Send authentication failure result to the client
+    }
+  });
+
+  socket.on('setPassword', (data) => {
+    password = data.password; // Set the password received from the web
+    console.log(`Password set to: ${password}`);
+  });
+
   socket.on('disconnect', () => {
     console.log('A client disconnected');
   });
