@@ -3,8 +3,9 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const { v4: uuidv4 } = require('uuid');
-
+const path = require('path');
 const roomId = uuidv4();
+const fs = require('fs');
 
 let password = 'defaultpassword';
 app.use(express.static('public'));
