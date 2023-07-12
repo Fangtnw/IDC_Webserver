@@ -1,17 +1,23 @@
 const io = require('socket.io-client');
-const socket = io.connect('http://192.168.0.103:3000'); 
+const socket = io.connect('http://192.168.194.230:3000'); 
 //const socket = io.connect('http://localhost:3000'); 
 const readline = require('readline');
 const rclnodejs = require('rclnodejs');
+
+let username;
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
+
 // Prompt the user to enter the password
 rl.question('Enter the password: ', (password) => {
   // Emit the 'join' event with the password to join the room
+  rl.question('Enter your username: ', (name) => {
+    username = name;
+
   socket.emit('join', { password });
 
   // Receive authentication result from server
@@ -35,8 +41,19 @@ rl.question('Enter the password: ', (password) => {
 //   [1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0],
 // ];
 rclnodejs.init().then(() => {
-  const node = rclnodejs.createNode('publisher_node');
+  const node = rclnodejs.createNode('client_node');
   publisher = node.createPublisher('std_msgs/msg/String', '/server_status');
+  const subscriber = node.createSubscription(
+    'std_msgs/msg/String',
+    'scoring_report',
+    (message) => {
+      // Send scoring report to the server
+      console.log('kuy');
+      console.log(`scoring report': ${message.data}`);
+      const scoringReport = `Scoring report: ${username}, Value: ${message.data}`;
+      socket.emit('scoringReport', scoringReport);
+    }
+  );
 });
 
   // // Publish object status to server
@@ -54,17 +71,11 @@ rclnodejs.init().then(() => {
       }
       console.log('starting the controller')
     } else if ((data.player === myRole || data.player === 'all') && data.command === 'spawn_object') {
-      // Call ros2 service spawn_entity
-      // ...
-      // if (publisher) {
-      //   publisher.publish('spawn');
-      //   console.log('Published message to ROS 2 topic');
-      // } else {
-      //   console.log('ROS 2 publisher is not initialized');
-      // }
-      // console.log('spawning the object')
+      
+      console.log('spawning the object')
     }
   });
 
   rl.close();
+});
 });

@@ -56,6 +56,11 @@ io.on('connection', (socket) => {
     console.log(`Password set to: ${password}`);
   });
 
+  socket.on('scoringReport', (scoringReport) => {
+    let score = scoringReport;
+    console.log(`scoring report': ${score}`);
+  });
+
   socket.on('disconnect', () => {
     console.log('A client disconnected');
     connectedClients--;
