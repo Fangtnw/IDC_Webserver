@@ -1,0 +1,52 @@
+.header {
+    background-color: rgba(112, 112, 112, 0.144);
+    font-size: 25px;
+    padding : 10px;
+    width: 100%;
+    font-family: 'Quicksand',sans-serif;
+    text-align: center;
+
+    border-style: groove;
+    
+}
+
+.content {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Quicksand',sans-serif;
+}
+
+.pwFeedback,.cmdFeedback
+{
+    padding: 5px;
+    font-size: 14px;   
+}
+
+.buttonStart,.buttonSpawn{
+    font-size: 14px;
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    background-color: rgb(29, 29, 29);
+    color: #ffffff;
+
+}
+
+.scoreboard {
+    display : grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    font-size: 25px;
+    font-family: 'Quicksand',sans-serif;
+}
+.scoreboard_name,
+.scoreboard_point{
+    padding: 10px;
+    text-align: center;
+}
+
+.scoreboard_name{
+    font-weight: bold;
+    border-bottom: 3px solid rgb(0, 0, 0);
+}
+

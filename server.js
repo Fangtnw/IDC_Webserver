@@ -3,13 +3,13 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const { v4: uuidv4 } = require('uuid');
-const path = require('path');
+//const path = require('path');
 const roomId = uuidv4();
 
 let password = 'myroom';
 let connectedClients = 0;
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -58,7 +58,8 @@ io.on('connection', (socket) => {
 
   socket.on('scoringReport', (scoringReport) => {
     let score = scoringReport;
-    console.log(`scoring report': ${score}`);
+    io.emit('score', scoringReport);
+    console.log(`scoring report: ${JSON.stringify(score)}`);
   });
 
   socket.on('disconnect', () => {

@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Console</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
@@ -13,36 +13,31 @@
     <form id="setPasswordForm">
       <label for="password">Set room id:</label>
       <input type="text" name="password" id="passwordInput">
-      <button type="submitPassword">set</button>
+      <button class="buttonSpawn"type="submitPassword">set</button>
     </form>
-    <form id="commandForm">
-      <label for="player">Publish to:</label>
-      <select name="player" id="playerSelect">
-        <option value="player1">Player 1</option>
-        <option value="player2">Player 2</option>
-        <option value="all">All</option>
-      </select>
-      <br>
-      <label for="command">Command:</label>
-      <select name="command" id="commandSelect">
-        <option value="spawn_object">Spawn the object</option>
-        <option value="start">Start the game</option>
-      </select>
-      <!-- <input type="text" name="status" id="statusInput"> -->
-      <br>
-      <button type="submit">Send</button>
+    <div class ="pwFeedback" id="passwordOutput"></div>
+    <button class="buttonStart" type="button" id="startButton">Game Start</button>
+    <button class="buttonSpawn" type="button" id ="spawn1Button">Player1 SpawnObject</button>
+    <button class="buttonSpawn" type="button" id="spawn2Button">Player2 SpawnObject</button>
+    <div class="cmdFeedback" id="commandOutput">Waiting for the command . . .</div>
   </div>
   
-
-    <div id="commandOutput"></div>
-
-  </form>
+    <div class="scoreboard">
+      <div class="scoreboard_name" id="scoreboardName1">Player One</div>
+      <div class="scoreboard_name" id="scoreboardName2">Player Two</div>
+      <div class="scoreboard_point" id="scoreReport1">0</div>
+      <div class="scoreboard_point" id="scoreReport2">0</div>
+    </div>
+    
 
   <script>
     const socket = io();
 
-    const commandForm = document.getElementById('commandForm');
+    // const commandForm = document.getElementById('commandForm');
     const setPasswordForm = document.getElementById('setPasswordForm');
+    const startButton = document.getElementById('startButton');
+    const spawn1Button = document.getElementById('spawn1Button');
+    const spawn2Button = document.getElementById('spawn2Button');
 
     setPasswordForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -51,27 +46,74 @@
 
       // Emit 'setPassword' event to the server
       socket.emit('setPassword', { password });
-
+      passwordOutput.textContent= `Password set to: ${password}`;
       passwordInput.value = ''; // Clear the input field
     });
 
-    commandForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+    // commandForm.addEventListener('submit', (e) => {
+    //   e.preventDefault();
 
-      const player = document.getElementById('playerSelect').value;
-      const cmd = document.getElementById('commandSelect').value;
+    //   const player = document.getElementById('playerSelect').value;
+    //   const cmd = document.getElementById('commandSelect').value;
 
-      const command = {
-        player: player,
-        command: cmd,
+    //   let command = {
+    //     from: "REFEREE",
+    //     player: player,
+    //     command: cmd,
+    //   };
+
+    //   socket.emit('command', command);
+    // });
+
+    startButton.addEventListener('click', () => {
+      let command = {
+        from: 'Referee',
+        player: 'all',
+        command: 'start',
       };
+      socket.emit('command', command);
+    });
 
+    spawn1Button.addEventListener('click', () => {
+      let command = {
+        from: 'Referee',
+        player: 'player1',
+        command: 'spawn_object',
+      };
+      socket.emit('command', command);
+    });
+
+    spawn2Button.addEventListener('click', () => {
+      let command = {
+        from: 'Referee',
+        player: 'player2',
+        command: 'spawn_object',
+      };
       socket.emit('command', command);
     });
 
     socket.on('command', (data) => {
       // Display the command in the commandOutput div
       commandOutput.textContent = `Published command: ${JSON.stringify(data)}`;
+    });
+
+    socket.on('score', (scoringReport) => {
+      // console.log("HELLO");
+      //console.log(`Score report: ${JSON.stringify(scoringReport)}`);
+      if (scoringReport.role ==='player1')
+      {
+        // scoreReport1.textContent = `Score report: ${JSON.stringify(scoringReport)}`;
+        scoreReport1.textContent = scoringReport.score
+      }
+      else if (scoringReport.role ==='player2')
+      {
+        scoreReport2.textContent = scoringReport.score
+      }
+      else {
+        scoreReport1.textContent = "User Not Found"
+        scoreReport2.textContent = "User Not Found"
+      }
+      
     });
 
   </script>
