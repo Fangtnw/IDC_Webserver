@@ -1,9 +1,10 @@
 const io = require('socket.io-client');
 //const socket = io.connect('http://192.168.194.230:3000'); 
-const socket = io.connect('http://localhost:3000'); 
+const socket = io.connect('http://localhost:4000'); 
 const readline = require('readline');
 const rclnodejs = require('rclnodejs');
 const env = require('dotenv').config()
+const process = require('process');
 
 // const rl = readline.createInterface({
 //   input: process.stdin,
@@ -35,12 +36,22 @@ const env = require('dotenv').config()
       socket.disconnect();
     }
   });
+  
+  const loginReport = {
+    role : myRole,
+    team : username,}
+
+  socket.emit('login', loginReport);
 
   // socket.on('playerRole', (data) => {
   //   myRole = data.player;
   //   console.log('you are', myRole);
   // });
-
+  process.on('SIGINT', () => {
+    // Shutdown the node
+    rclnodejs.shutdown();
+  });
+  
 rclnodejs.init().then(() => {
   const node = new rclnodejs.Node("client_node");//rclnodejs.createNode('client_node');
   publisher = node.createPublisher('std_msgs/msg/String', '/server_status');
@@ -50,17 +61,16 @@ rclnodejs.init().then(() => {
     (message) => {
       console.log(`scoring report': ${message.data}`);
       // const scoringReport = `Scoring report: ${username}, Value: ${message.data}`;
-
       const scoringReport = {
         role : myRole,
         team : username,
-        score : message.data,
-        // myarray : [1,2,3,4,5],
+        score : message.data, // score data or mission status
       };
       socket.emit('scoringReport', scoringReport);
+      socket.emit('login', loginReport);
     }
-
   );
+
   rclnodejs.spin(node);
 });
 

@@ -27,6 +27,8 @@
       <div class="scoreboard_name" id="scoreboardName2">Player Two</div>
       <div class="scoreboard_point" id="scoreReport1">0</div>
       <div class="scoreboard_point" id="scoreReport2">0</div>
+      <div class="scoreboard_mission" id="missionReport1"></div>
+      <div class="scoreboard_mission" id="missionReport2"></div>
     </div>
     
 
@@ -46,7 +48,7 @@
 
       // Emit 'setPassword' event to the server
       socket.emit('setPassword', { password });
-      passwordOutput.textContent= `Password set to: ${password}`;
+      passwordOutput.textContent= ` Set Room ID to: ${password}`;
       passwordInput.value = ''; // Clear the input field
     });
 
@@ -114,6 +116,22 @@
         scoreReport2.textContent = "User Not Found"
       }
       
+    });
+    
+    socket.on('login', (loginReport) => {
+      if (loginReport.role === 'player1'){
+        scoreboardName1.textContent = loginReport.team;
+      }
+      else if (loginReport.role === 'player2')
+      scoreboardName2.textContent = loginReport.team;
+    });
+    
+    socket.on('pass', (scoringReport) => {
+      if (scoringReport.role === 'player1'){
+        missionReport1.style.backgroundColor = 'green';
+      }
+      else if (scoringReport.role === 'player2')
+        missionReport2.style.backgroundColor = 'green';
     });
 
   </script>

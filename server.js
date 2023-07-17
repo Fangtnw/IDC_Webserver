@@ -58,16 +58,29 @@ io.on('connection', (socket) => {
 
   socket.on('scoringReport', (scoringReport) => {
     let score = scoringReport;
-    io.emit('score', scoringReport);
+    //scoringReport.score.isalpha() check alphabet
+    if (scoringReport.score === 'pass')
+    {
+      io.emit('pass' ,scoringReport)
+    }
+    else {
+      io.emit('score', scoringReport);
+    }
     console.log(`scoring report: ${JSON.stringify(score)}`);
+  });
+
+  socket.on('login', (loginReport) => {
+    console.log('A client login');
+    io.emit('login', loginReport);
   });
 
   socket.on('disconnect', () => {
     console.log('A client disconnected');
     connectedClients--;
+    console.log(`connected client : ${connectedClients}`)
   });
 });
 
-http.listen(3000, () => {
-  console.log('Server listening on port 3000');
+http.listen(4000, () => {
+  console.log('Server listening on port 4000');
 });

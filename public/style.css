@@ -2,10 +2,10 @@
     background-color: rgba(112, 112, 112, 0.144);
     font-size: 25px;
     padding : 10px;
-    width: 100%;
+    width: 90%;
     font-family: 'Quicksand',sans-serif;
     text-align: center;
-
+    margin: auto;
     border-style: groove;
     
 }
@@ -27,22 +27,36 @@
     font-size: 14px;
     padding: 0.5em 1em;
     border-radius: 1em;
-    background-color: rgb(29, 29, 29);
-    color: #ffffff;
+    background-color: black;
+    color: white;
 
 }
 
 .scoreboard {
     display : grid;
     grid-template-columns: 1fr 1fr;
-    width: 100%;
+    width: 80%;
     font-size: 25px;
     font-family: 'Quicksand',sans-serif;
+    align-items: center;
+    margin: auto;
 }
 .scoreboard_name,
 .scoreboard_point{
     padding: 10px;
+    font-size: 40px;
     text-align: center;
+}
+.scoreboard_mission{
+    background-color:red;
+    border-radius: 50%;
+    border-style: groove;
+    border-width: 10%;
+    border-color: black;
+    width: 30px;
+    height: 30px;
+    margin: auto;
+
 }
 
 .scoreboard_name{
