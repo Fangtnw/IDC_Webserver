@@ -3,23 +3,22 @@ const io = require('socket.io-client');
 const socket = io.connect('http://localhost:4000'); 
 const readline = require('readline');
 const rclnodejs = require('rclnodejs');
-const env = require('dotenv').config()
-const process = require('process');
+const { spawn } = require('child_process');
 
-// const rl = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout,
-// });
+const yaml = require('yaml');
+const fs = require('fs');
 
-// // Prompt the user to enter the password
-// rl.question('Enter the password: ', (password) => {
-//   // Emit the 'join' event with the password to join the room
-//   rl.question('Enter your username: ', (name) => {
-//     username = name;
+const configPath = './public/player.yaml';
+const config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
 
- const password = process.env.RoomId
- const username = process.env.Team
- const myRole = process.env.Role
+const password = config.RoomId;
+const username = config.Team;
+const myRole = config.Role;
+
+// const env = require('dotenv').config()
+//  const password = process.env.RoomId
+//  const username = process.env.Team
+//  const myRole = process.env.Role
  
   socket.emit('join', { password });
 
@@ -27,7 +26,7 @@ const process = require('process');
   socket.on('authResult', (data) => {
     if (data.success) {
       console.log('Successfully joined the room.');
-      console.log('you are', myRole);
+      console.log('Welcome', username); console.log('you are', myRole);
       if (myRole !== 'player1' && myRole !== 'player2') 
         { console.log("\x1b[31mplease identify your role correctly\x1b[0m"); }
 
@@ -47,12 +46,8 @@ const process = require('process');
   //   myRole = data.player;
   //   console.log('you are', myRole);
   // });
-  process.on('SIGINT', () => {
-    // Shutdown the node
-    rclnodejs.shutdown();
-  });
-  
-rclnodejs.init().then(() => {
+
+  rclnodejs.init().then(() => {
   const node = new rclnodejs.Node("client_node");//rclnodejs.createNode('client_node');
   publisher = node.createPublisher('std_msgs/msg/String', '/server_status');
   const subscriber = node.createSubscription(
@@ -74,6 +69,13 @@ rclnodejs.init().then(() => {
   rclnodejs.spin(node);
 });
 
+process.on('SIGINT', () => {
+  console.log("   ok GOTCHA killing myself..");
+  socket.disconnect();
+  rclnodejs.shutdown();
+  process.exit(0);
+});
+
   // // Publish object status to server
 // socket.emit('object_status', objectStatus);
 
@@ -88,6 +90,7 @@ rclnodejs.init().then(() => {
       //   console.log('ROS 2 publisher is not initialized');
       // }
       console.log('starting the controller')
+      
       //call start game service
     } else if ((data.player === myRole || data.player === 'all') && data.command === 'spawn_object') {
       

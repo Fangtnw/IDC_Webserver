@@ -1,12 +1,14 @@
+
 .header {
-    background-color: rgba(112, 112, 112, 0.144);
+    background-color: gainsboro;
     font-size: 25px;
     padding : 10px;
     width: 90%;
     font-family: 'Quicksand',sans-serif;
     text-align: center;
     margin: auto;
-    border-style: groove;
+    border-style: double;
+    border-radius: 5px;
     
 }
 
@@ -27,8 +29,8 @@
     font-size: 14px;
     padding: 0.5em 1em;
     border-radius: 1em;
-    background-color: black;
-    color: white;
+    background-color: dimgray;
+    color: snow;
 
 }
 
@@ -46,13 +48,14 @@
     padding: 10px;
     font-size: 40px;
     text-align: center;
+    
 }
 .scoreboard_mission{
-    background-color:red;
+    background-color:crimson;
     border-radius: 50%;
-    border-style: groove;
+    border-style: solid;
     border-width: 10%;
-    border-color: black;
+    border-color:dimgray;
     width: 30px;
     height: 30px;
     margin: auto;
@@ -61,6 +64,6 @@
 
 .scoreboard_name{
     font-weight: bold;
-    border-bottom: 3px solid rgb(0, 0, 0);
+    border-bottom: 3px solid dimgray;
 }
 

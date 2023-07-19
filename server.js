@@ -18,18 +18,9 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   console.log('A client is connected! ID: ' + socket.id);
   connectedClients++;
-  if (connectedClients === 1){
-    console.log('the referee is connected');
-  } else if (connectedClients > 1){  
-    console.log(`connected client : ${connectedClients}`);}
-
-  let player = '';
-  if (connectedClients === 2) {
-    player = 'player1';
-  } else if (connectedClients === 3) {
-    player = 'player2';
-  }
   
+  console.log(`connected client : ${connectedClients}`);
+
   // Notify the client about their assigned player role
   
   
@@ -43,11 +34,11 @@ io.on('connection', (socket) => {
       socket.join(roomId);
       console.log(`Client ${socket.id} joined the room.`);
       socket.emit('authResult', { success: true }); // Send authentication success result to the client
-      socket.emit('playerRole', { player });
     } else {
       console.log(`Client ${socket.id} entered the wrong password.`);
+      socket.emit('authResult', { success: false });
       socket.disconnect();
-      socket.emit('authResult', { success: false }); // Send authentication failure result to the client
+       // Send authentication failure result to the client
     }
   });
 
@@ -70,7 +61,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('login', (loginReport) => {
-    console.log('A client login');
     io.emit('login', loginReport);
   });
 
