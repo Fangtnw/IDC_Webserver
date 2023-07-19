@@ -4,11 +4,13 @@
     font-size: 25px;
     padding : 10px;
     width: 90%;
+    height: 30%;
     font-family: 'Quicksand',sans-serif;
     text-align: center;
     margin: auto;
     border-style: double;
     border-radius: 5px;
+    border-width: 10px;
     
 }
 
@@ -21,7 +23,8 @@
 
 .pwFeedback,.cmdFeedback
 {
-    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     font-size: 14px;   
 }
 
@@ -46,24 +49,25 @@
 .scoreboard_name,
 .scoreboard_point{
     padding: 10px;
-    font-size: 40px;
+    font-size: 35px;
     text-align: center;
     
 }
 .scoreboard_mission{
     background-color:crimson;
     border-radius: 50%;
-    border-style: solid;
-    border-width: 10%;
-    border-color:dimgray;
+    border-style: inset;
+    border-width: 10px;
+    border-color:rgb(202, 183, 172);
     width: 30px;
     height: 30px;
     margin: auto;
-
 }
 
 .scoreboard_name{
+    margin-top: 10%;
     font-weight: bold;
     border-bottom: 3px solid dimgray;
+    border-top: 3px solid dimgray;
 }
 

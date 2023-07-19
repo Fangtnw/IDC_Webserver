@@ -19,7 +19,8 @@ const myRole = config.Role;
 //  const password = process.env.RoomId
 //  const username = process.env.Team
 //  const myRole = process.env.Role
- 
+  console.log('Waiting for the server . . .')
+
   socket.emit('join', { password });
 
   // Receive authentication result from server
@@ -51,15 +52,16 @@ const myRole = config.Role;
   const node = new rclnodejs.Node("client_node");//rclnodejs.createNode('client_node');
   publisher = node.createPublisher('std_msgs/msg/String', '/server_status');
   const subscriber = node.createSubscription(
-    'std_msgs/msg/String',
-    '/scoring_report',
+    'std_msgs/msg/Int16MultiArray',
+    '/score_report',
     (message) => {
-      console.log(`scoring report': ${message.data}`);
+      console.log(`scoring report': ${message}`);
       // const scoringReport = `Scoring report: ${username}, Value: ${message.data}`;
       const scoringReport = {
         role : myRole,
         team : username,
-        score : message.data, // score data or mission status
+        score : message.data[0], // score data or mission status
+        status : message.data[1],
       };
       socket.emit('scoringReport', scoringReport);
       socket.emit('login', loginReport);

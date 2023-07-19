@@ -50,9 +50,10 @@ io.on('connection', (socket) => {
   socket.on('scoringReport', (scoringReport) => {
     let score = scoringReport;
     //scoringReport.score.isalpha() check alphabet
-    if (scoringReport.score === 'pass')
+    if (scoringReport.status === 1)
     {
       io.emit('pass' ,scoringReport)
+      io.emit('score', scoringReport);
     }
     else {
       io.emit('score', scoringReport);
