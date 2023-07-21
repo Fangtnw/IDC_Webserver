@@ -1,6 +1,8 @@
 const io = require('socket.io-client');
 //const socket = io.connect('http://192.168.194.1:4000'); 
-const socket = io.connect('http://localhost:4000'); 
+//const socket = io.connect('http://localhost:4000'); 
+const socket = io.connect('https://1de6-125-25-108-5.ngrok-free.app/'); 
+
 const readline = require('readline');
 const rclnodejs = require('rclnodejs');
 
@@ -60,19 +62,17 @@ const subscriber = node.createSubscription(
   (message) => {
     if (message.data[1] === 0 || message.data[1] === 1)
     {console.log(`scoring report': score : ${message.data[0]}`);
-     socket.emit('scoringReport', scoringReport);
-    }
-    else if (message.data[1] === 3)
-    {console.log('Time is UPPP');}
-    // cont scoringReport = `Scoring report: ${username}, Value: ${message.data}`;
-    
-    const scoringReport = {
+      const scoringReport = {
       role : myRole,
       team : username,
       score : message.data[0], // score data or mission status
       status : message.data[1],
+      }
+     socket.emit('scoringReport', scoringReport);
     }
-      
+    else if (message.data[1] === 2)
+    {console.log('Time is up !!!!');}
+    // cont scoringReport = `Scoring report: ${username}, Value: ${message.data}`;
     socket.emit('login', loginReport);
     }
   );
