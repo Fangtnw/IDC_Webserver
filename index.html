@@ -19,6 +19,7 @@
     <!-- <button class="buttonStart" type="button" id="startButton">Game Start</button> -->
     <button class="buttonSpawn" type="button" id ="spawn1Button">Player1 SpawnObject</button>
     <button class="buttonSpawn" type="button" id="spawn2Button">Player2 SpawnObject</button>
+    <button class="buttonSpawn" type="button" id="resetScoreboard">Reset Scoreboard</button>
     <div class="cmdFeedback" id="commandOutput">Waiting for the command . . .</div>
   </div>
   
@@ -56,6 +57,7 @@
     const plusP2 = document.getElementById('plusP2');
     const forceP1 = document.getElementById('forceP1');
     const forceP2 = document.getElementById('forceP2');
+    const resetScoreboard = document.getElementById('resetScoreboard');
 
     setPasswordForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -119,6 +121,15 @@
 
     plusP2.addEventListener('click', () => {
     increment2 += 1;
+    });
+
+    resetScoreboard.addEventListener('click', () => {
+      scoreboardName1.textContent = 'Player One';
+        scoreReport1.textContent = '0';
+        missionReport1.style.backgroundColor = 'crimson';
+        scoreboardName2.textContent = 'Player Two';
+        scoreReport2.textContent = '0';
+        missionReport2.style.backgroundColor = 'crimson';
     });
 
     forceP1.addEventListener('click', () => {
