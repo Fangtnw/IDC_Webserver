@@ -16,7 +16,7 @@
       <button class="buttonSpawn"type="submitPassword">set</button>
     </form>
     <div class ="pwFeedback" id="passwordOutput"></div>
-    <button class="buttonStart" type="button" id="startButton">Game Start</button>
+    <!-- <button class="buttonStart" type="button" id="startButton">Game Start</button> -->
     <button class="buttonSpawn" type="button" id ="spawn1Button">Player1 SpawnObject</button>
     <button class="buttonSpawn" type="button" id="spawn2Button">Player2 SpawnObject</button>
     <div class="cmdFeedback" id="commandOutput">Waiting for the command . . .</div>
@@ -27,8 +27,18 @@
       <div class="scoreboard_name" id="scoreboardName2">Player Two</div>
       <div class="scoreboard_point" id="scoreReport1">0</div>
       <div class="scoreboard_point" id="scoreReport2">0</div>
+      <div class="scoreboard_control">
+        <button class="scoreboard_control_button" id ="minusP1">-</button>
+        <button class="scoreboard_control_button" id ="plusP1">+</button>
+      </div>
+      <div class="scoreboard_control">
+        <button class="scoreboard_control_button" id ="minusP2">-</button>
+        <button class="scoreboard_control_button" id ="plusP2">+</button>
+      </div>
       <div class="scoreboard_mission" id="missionReport1"></div>
       <div class="scoreboard_mission" id="missionReport2"></div>
+      <button class="scoreboard_force_button" id ="forceP1"> </button>
+      <button class="scoreboard_force_button" id ="forceP2"> </button>
     </div>
     
 
@@ -40,12 +50,17 @@
     const startButton = document.getElementById('startButton');
     const spawn1Button = document.getElementById('spawn1Button');
     const spawn2Button = document.getElementById('spawn2Button');
+    const minusP1 = document.getElementById('minusP1');
+    const minusP2 = document.getElementById('minusP2');
+    const plusP1 = document.getElementById('plusP1');
+    const plusP2 = document.getElementById('plusP2');
+    const forceP1 = document.getElementById('forceP1');
+    const forceP2 = document.getElementById('forceP2');
 
     setPasswordForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const passwordInput = document.getElementById('passwordInput');
       const password = passwordInput.value;
-
       // Emit 'setPassword' event to the server
       socket.emit('setPassword', { password });
       passwordOutput.textContent= ` Set Room ID to: ${password}`;
@@ -67,14 +82,7 @@
     //   socket.emit('command', command);
     // });
 
-    startButton.addEventListener('click', () => {
-      let command = {
-        from: 'Referee',
-        player: 'all',
-        command: 'start',
-      };
-      socket.emit('command', command);
-    });
+
 
     spawn1Button.addEventListener('click', () => {
       let command = {
@@ -94,6 +102,33 @@
       socket.emit('command', command);
     });
 
+    let increment1=0;
+    let increment2=0;
+      
+    minusP1.addEventListener('click', () => {
+    increment1 -= 1;
+    });
+
+    minusP2.addEventListener('click', () => {
+    increment2 -= 1;
+    });
+
+    plusP1.addEventListener('click', () => {
+    increment1 += 1;
+    });
+
+    plusP2.addEventListener('click', () => {
+    increment2 += 1;
+    });
+
+    forceP1.addEventListener('click', () => {
+      missionReport1.style.backgroundColor = 'chartreuse';
+    });
+
+    forceP2.addEventListener('click', () => {
+      missionReport2.style.backgroundColor = 'chartreuse';
+    });
+
     socket.on('command', (data) => {
       // Display the command in the commandOutput div
       commandOutput.textContent = `Published command: ${JSON.stringify(data)}`;
@@ -102,14 +137,26 @@
     socket.on('score', (scoringReport) => {
       // console.log("HELLO");
       //console.log(`Score report: ${JSON.stringify(scoringReport)}`);
+      
       if (scoringReport.role ==='player1')
       {
         // scoreReport1.textContent = `Score report: ${JSON.stringify(scoringReport)}`;
-        scoreReport1.textContent = scoringReport.score
+        scoreboardName1.textContent = scoringReport.team;
+        scoreReport1.textContent = scoringReport.score + increment1;
       }
       else if (scoringReport.role ==='player2')
       {
-        scoreReport2.textContent = scoringReport.score
+        scoreboardName2.textContent = scoringReport.team;
+        scoreReport2.textContent = scoringReport.score + increment2;
+      }
+      else if (scoringReport.role ==='reset')
+      {
+        scoreboardName1.textContent = 'Player One';
+        scoreReport1.textContent = '0';
+        missionReport1.style.backgroundColor = 'crimson';
+        scoreboardName2.textContent = 'Player Two';
+        scoreReport2.textContent = '0';
+        missionReport2.style.backgroundColor = 'crimson';
       }
       else {
         scoreReport1.textContent = "User Not Found"
@@ -120,10 +167,13 @@
     
     socket.on('login', (loginReport) => {
       if (loginReport.role === 'player1'){
+        missionReport1.style.backgroundColor = 'crimson';
         scoreboardName1.textContent = loginReport.team;
       }
-      else if (loginReport.role === 'player2')
+      else if (loginReport.role === 'player2'){
+      missionReport2.style.backgroundColor = 'crimson';
       scoreboardName2.textContent = loginReport.team;
+    }
     });
     
     socket.on('pass', (scoringReport) => {
@@ -133,6 +183,7 @@
       else if (scoringReport.role === 'player2')
         missionReport2.style.backgroundColor = 'chartreuse';
     });
+
 
   </script>
 </body>

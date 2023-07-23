@@ -51,7 +51,6 @@
     padding: 10px;
     font-size: 35px;
     text-align: center;
-    
 }
 .scoreboard_mission{
     background-color:crimson;
@@ -71,3 +70,38 @@
     border-top: 3px solid dimgray;
 }
 
+.scoreboard_control{
+    margin-bottom: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+.scoreboard_control_button{
+    /* flex-grow: 1; */
+    width: 10%;
+    border : none;
+    border-color: dimgray;
+    cursor: pointer;
+    background: gainsboro;
+    font-size: 20px;
+    text-align: center;
+}
+
+.scoreboard_control_button:hover ,.buttonStart:hover ,.buttonSpawn:hover , .scoreboard_force_button:hover  {
+    background: rgb(168, 167, 167);
+}
+
+.scoreboard_control_button:active ,.buttonStart:active ,.buttonSpawn:active , .scoreboard_force_button:active {
+    background: gainsboro;
+}
+.scoreboard_force_button{
+    margin-top: 2%;
+    width: 10%;
+    border : solid;
+    border-color: chartreuse;
+    cursor: pointer;
+    background: chartreuse;
+    font-size: 20px;
+    border-radius: 5px;
+    justify-self: center;
+}

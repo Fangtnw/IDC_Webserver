@@ -1,4 +1,5 @@
 const express = require('express');
+const { reset } = require('nodemon');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
@@ -18,7 +19,6 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   console.log('A client is connected! ID: ' + socket.id);
   connectedClients++;
-  
   console.log(`connected client : ${connectedClients}`);
 
   // Notify the client about their assigned player role
@@ -68,6 +68,10 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('A client disconnected');
     connectedClients--;
+    const defaultboard = {
+      role: 'reset',
+    };
+    io.emit('score', defaultboard);
     console.log(`connected client : ${connectedClients}`)
   });
 });

@@ -1,7 +1,7 @@
 const io = require('socket.io-client');
 //const socket = io.connect('http://192.168.194.1:4000'); 
-//const socket = io.connect('http://localhost:4000'); 
-const socket = io.connect('https://1de6-125-25-108-5.ngrok-free.app/'); 
+const socket = io.connect('http://localhost:4000'); 
+//const socket = io.connect('https://db76-125-25-108-5.ngrok-free.app'); 
 
 const readline = require('readline');
 const rclnodejs = require('rclnodejs');
@@ -73,7 +73,7 @@ const subscriber = node.createSubscription(
     else if (message.data[1] === 2)
     {console.log('Time is up !!!!');}
     // cont scoringReport = `Scoring report: ${username}, Value: ${message.data}`;
-    socket.emit('login', loginReport);
+    //socket.emit('login', loginReport);
     }
   );
 
@@ -101,6 +101,11 @@ process.on('SIGINT', () => {
   socket.disconnect();
   rclnodejs.shutdown();
   process.exit(0);
+});
+
+socket.on('disconnect', () => {
+  socket.emit('dis', loginReport);
+  console.log('kkk');
 });
 
   
