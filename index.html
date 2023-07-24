@@ -104,8 +104,8 @@
       socket.emit('command', command);
     });
 
-    let increment1=0;
-    let increment2=0;
+    var increment1=0;
+    var increment2=0;
       
     minusP1.addEventListener('click', () => {
     increment1 -= 1;
@@ -130,6 +130,8 @@
         scoreboardName2.textContent = 'Player Two';
         scoreReport2.textContent = '0';
         missionReport2.style.backgroundColor = 'crimson';
+        increment1=0;
+        increment2=0;
     });
 
     forceP1.addEventListener('click', () => {

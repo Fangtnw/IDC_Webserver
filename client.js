@@ -61,7 +61,7 @@ const subscriber = node.createSubscription(
   '/score_report',
   (message) => {
     if (message.data[1] === 0 || message.data[1] === 1)
-    {console.log(`scoring report': score : ${message.data[0]}`);
+    {console.log(`my score : ${message.data[0]} `);
       const scoringReport = {
       role : myRole,
       team : username,
@@ -103,9 +103,5 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
-socket.on('disconnect', () => {
-  socket.emit('dis', loginReport);
-  console.log('kkk');
-});
 
   
