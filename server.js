@@ -55,6 +55,11 @@ io.on('connection', (socket) => {
       io.emit('pass' ,scoringReport)
       io.emit('score', scoringReport);
     }
+    else if (scoringReport.status === 2)
+    {
+      io.emit('timeout' ,scoringReport)
+      io.emit('score', scoringReport);
+    }
     else {
       io.emit('score', scoringReport);
     }

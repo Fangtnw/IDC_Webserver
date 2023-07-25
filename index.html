@@ -6,6 +6,7 @@
   <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
+  <div class="container">
   <div class="header">
     <h1>Referee Console</h1>
   </div>
@@ -13,13 +14,19 @@
     <form id="setPasswordForm">
       <label for="password">Set room id:</label>
       <input type="text" name="password" id="passwordInput">
-      <button class="buttonSpawn"type="submitPassword">set</button>
+      <button class="commandBtn"type="submitPassword">set</button>
     </form>
     <div class ="pwFeedback" id="passwordOutput"></div>
-    <!-- <button class="buttonStart" type="button" id="startButton">Game Start</button> -->
-    <button class="buttonSpawn" type="button" id ="spawn1Button">Player1 SpawnObject</button>
-    <button class="buttonSpawn" type="button" id="spawn2Button">Player2 SpawnObject</button>
-    <button class="buttonSpawn" type="button" id="resetScoreboard">Reset Scoreboard</button>
+    <div class="BtnGroup">
+      <button class="commandBtn" type="button" id="freeplayButton">Free Play</button>
+      <button class="commandBtn" type="button" id="resetWButton">Reset World</button>
+      <button class="commandBtn" type="button" id="startButton">Game Start</button>
+    </div>
+    <div class="BtnGroup">
+      <button class="commandBtn" type="button" id ="spawn1Button">Player1 SpawnObject</button>
+      <button class="commandBtn" type="button" id="spawn2Button">Player2 SpawnObject</button>
+    </div>
+    <button class="commandBtn" type="button" id="resetScoreboard">Reset Scoreboard</button>
     <div class="cmdFeedback" id="commandOutput">Waiting for the command . . .</div>
   </div>
   
@@ -41,7 +48,8 @@
       <button class="scoreboard_force_button" id ="forceP1"> </button>
       <button class="scoreboard_force_button" id ="forceP2"> </button>
     </div>
-    
+    <footer div class="buttom"></div>
+  </div>
 
   <script>
     const socket = io();
@@ -58,6 +66,8 @@
     const forceP1 = document.getElementById('forceP1');
     const forceP2 = document.getElementById('forceP2');
     const resetScoreboard = document.getElementById('resetScoreboard');
+    const freeplayButton = document.getElementById('freeplayButton');
+    const resetWButton = document.getElementById('resetWButton');
 
     setPasswordForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -84,7 +94,32 @@
     //   socket.emit('command', command);
     // });
 
+    freeplayButton.addEventListener('click', () => {
+      let command = {
+        from: 'Referee',
+        player: 'all',
+        command: 'freeplay',
+      };
+      socket.emit('command', command);
+    });
 
+    resetWButton.addEventListener('click', () => {
+      let command = {
+        from: 'Referee',
+        player: 'all',
+        command: 'reset_world',
+      };
+      socket.emit('command', command);
+    });
+
+    startButton.addEventListener('click', () => {
+      let command = {
+        from: 'Referee',
+        player: 'all',
+        command: 'start',
+      };
+      socket.emit('command', command);
+    });
 
     spawn1Button.addEventListener('click', () => {
       let command = {
@@ -195,6 +230,14 @@
       }
       else if (scoringReport.role === 'player2')
         missionReport2.style.backgroundColor = 'chartreuse';
+    });
+
+    socket.on('timeout', (scoringReport) => {
+      if (scoringReport.role === 'player1'){
+        missionReport1.style.backgroundColor = 'gold';
+      }
+      else if (scoringReport.role === 'player2')
+        missionReport2.style.backgroundColor = 'gold';
     });
 
 

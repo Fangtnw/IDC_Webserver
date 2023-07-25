@@ -1,6 +1,20 @@
+html,body{
+    background-color: snow;
+    margin :0;
+    padding:0;
+}
+
+.container{
+    margin: 0 auto;
+    margin-top: 0px;
+    padding-top: 50px;
+    width: 800px;
+    
+}
 
 .header {
-    background-color: gainsboro;
+    background-color: dimgray;
+    color:gainsboro;
     font-size: 25px;
     padding : 10px;
     width: 90%;
@@ -21,6 +35,9 @@
     font-family: 'Quicksand',sans-serif;
 }
 
+.buttom{
+    margin-bottom: 0 auto;
+}
 .pwFeedback,.cmdFeedback
 {
     margin-top: 5px;
@@ -28,13 +45,15 @@
     font-size: 14px;   
 }
 
-.buttonStart,.buttonSpawn{
+.commandBtn{
     font-size: 14px;
     padding: 0.5em 1em;
     border-radius: 1em;
     background-color: dimgray;
     color: snow;
-
+    margin-bottom: 5px;
+    border-style: double;
+    border-color: snow;
 }
 
 .scoreboard {
@@ -87,11 +106,11 @@
     text-align: center;
 }
 
-.scoreboard_control_button:hover ,.buttonStart:hover ,.buttonSpawn:hover , .scoreboard_force_button:hover  {
+.scoreboard_control_button:hover ,.commandBtn:hover , .scoreboard_force_button:hover  {
     background: rgb(168, 167, 167);
 }
 
-.scoreboard_control_button:active ,.buttonStart:active ,.buttonSpawn:active , .scoreboard_force_button:active {
+.scoreboard_control_button:active ,.commandBtn:active , .scoreboard_force_button:active {
     background: gainsboro;
 }
 .scoreboard_force_button{

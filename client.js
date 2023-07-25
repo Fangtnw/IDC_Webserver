@@ -16,8 +16,6 @@ const password = config.RoomId;
 const username = config.Team;
 const myRole = config.Role;
 
-
-
 // const env = require('dotenv').config()
 //  const password = process.env.RoomId
 //  const username = process.env.Team
@@ -52,9 +50,12 @@ socket.emit('login', loginReport);
   // });
 
 rclnodejs.init().then(() => {
-node = new rclnodejs.Node("client_node");//rclnodejs.createNode('client_node');
+node = new rclnodejs.Node("client_node");
 publisher = node.createPublisher('std_msgs/msg/String', '/server_status');
 const spawn_client = node.createClient('msg_interfaces/srv/SpawnObj','/spawn_command');
+//const resetW_client = node.createClient('msg_interfaces/srv/SpawnObj','/spawn_command');
+//const freeplay_client = node.createClient('msg_interfaces/srv/SpawnObj','/spawn_command');
+//const start_client = node.createClient('msg_interfaces/srv/SpawnObj','/spawn_command');
 
 const subscriber = node.createSubscription(
   'std_msgs/msg/Int16MultiArray',
@@ -70,8 +71,6 @@ const subscriber = node.createSubscription(
       }
      socket.emit('scoringReport', scoringReport);
     }
-    else if (message.data[1] === 2)
-    {console.log('Time is up !!!!');}
     // cont scoringReport = `Scoring report: ${username}, Value: ${message.data}`;
     //socket.emit('login', loginReport);
     }
@@ -79,17 +78,39 @@ const subscriber = node.createSubscription(
 
 socket.on('command', (data) => {
   console.log('Received command:', data);
-  if ((data.player === myRole || data.player === 'all') && data.command === 'start') {
+    if ((data.player === myRole || data.player === 'all') && data.command === 'start') {
       console.log('starting the controller')
       //call start game service
-    } else if ((data.player === myRole || data.player === 'all') && data.command === 'spawn_object') {
+      // const start_request = {spawn_command: {}}
+      start_client.sendRequest(start_request, (response) => {
+        console.log(`Result: ${typeof response}`, response);
+      });
+      console.log('game started')
+    } 
+    else if ((data.player === myRole || data.player === 'all') && data.command === 'freeplay'){
+      //call free play service
+      // const freeplay_request = {spawn_command: {}}
+      freeplay_client.sendRequest(freeplay_request, (response) => {
+        console.log(`Result: ${typeof response}`, response);
+      });
+      console.log('already set free play')
+    }
+    else if ((data.player === myRole || data.player === 'all') && data.command === 'reset_world'){
+      //call reset world service
+      // const resetW_request = {spawn_command: {}}
+      resetW_client.sendRequest(resetW_request, (response) => {
+        console.log(`Result: ${typeof response}`, response);
+      });
+      console.log('already reset the world')
+    }
+  
+    else if ((data.player === myRole || data.player === 'all') && data.command === 'spawn_object') {
       console.log('spawning the object')
-      const request = {spawn_command: {}}
-      spawn_client.sendRequest(request, (response) => {
+      const spawn_request = {spawn_command: {}}
+      spawn_client.sendRequest(spawn_request, (response) => {
         console.log(`Result: ${typeof response}`, response);
       });
       console.log('already sent object')
-
     }
   });
 
