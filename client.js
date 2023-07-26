@@ -10,6 +10,7 @@ const yaml = require('yaml');
 const fs = require('fs');
 
 const configPath = './public/player.yaml';
+// const configPath = '/home/User/IDC/IDC_ws/src/IDC-Simulation/robot_description/config/properties.yaml';
 const config = yaml.parse(fs.readFileSync(configPath, 'utf8'));
 
 const password = config.RoomId;
@@ -52,8 +53,8 @@ socket.emit('login', loginReport);
 rclnodejs.init().then(() => {
 node = new rclnodejs.Node("client_node");
 publisher = node.createPublisher('std_msgs/msg/String', '/server_status');
+const freeplay_client = node.createClient('msg_interfaces/srv/FreePlay',"/free_play_command");
 const start_client = node.createClient('msg_interfaces/srv/Start','/start_command');
-const freeplay_client = node.createClient('msg_interfaces/srv/FreePlay','/free_play_command');
 const resetW_client = node.createClient('msg_interfaces/srv/Reset','/reset_command');
 const spawn_client = node.createClient('msg_interfaces/srv/SpawnObj','/spawn_command');
 
@@ -90,10 +91,11 @@ socket.on('command', (data) => {
     else if ((data.player === myRole || data.player === 'all') && data.command === 'freeplay'){
       //call free play service
       const freeplay_request = {free_play_command: {}}
-      freeplay_client.sendRequest(freeplay_request, (response) => {
-         console.log(`Result: ${typeof response}`, response);
+      freeplay_client.sendRequest({free_play_command: {} }, (responser) => {
+        
+        // console.log(`Result: ${typeof response}`, response);
       });
-      // console.log('already set free play')
+       console.log('already set free play')
     }
     else if ((data.player === myRole || data.player === 'all') && data.command === 'reset_world'){
       //call reset world service
