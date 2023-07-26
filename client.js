@@ -52,10 +52,10 @@ socket.emit('login', loginReport);
 rclnodejs.init().then(() => {
 node = new rclnodejs.Node("client_node");
 publisher = node.createPublisher('std_msgs/msg/String', '/server_status');
+const start_client = node.createClient('msg_interfaces/srv/Start','/start_command');
+const freeplay_client = node.createClient('msg_interfaces/srv/FreePlay','/free_play_command');
+const resetW_client = node.createClient('msg_interfaces/srv/Reset','/reset_command');
 const spawn_client = node.createClient('msg_interfaces/srv/SpawnObj','/spawn_command');
-//const resetW_client = node.createClient('msg_interfaces/srv/SpawnObj','/spawn_command');
-//const freeplay_client = node.createClient('msg_interfaces/srv/SpawnObj','/spawn_command');
-//const start_client = node.createClient('msg_interfaces/srv/SpawnObj','/spawn_command');
 
 const subscriber = node.createSubscription(
   'std_msgs/msg/Int16MultiArray',
@@ -81,7 +81,7 @@ socket.on('command', (data) => {
     if ((data.player === myRole || data.player === 'all') && data.command === 'start') {
       console.log('starting the controller')
       //call start game service
-      // const start_request = {spawn_command: {}}
+      const start_request = {start_command: {}}
       start_client.sendRequest(start_request, (response) => {
         console.log(`Result: ${typeof response}`, response);
       });
@@ -89,15 +89,15 @@ socket.on('command', (data) => {
     } 
     else if ((data.player === myRole || data.player === 'all') && data.command === 'freeplay'){
       //call free play service
-      // const freeplay_request = {spawn_command: {}}
+      const freeplay_request = {free_play_command: {}}
       freeplay_client.sendRequest(freeplay_request, (response) => {
-        console.log(`Result: ${typeof response}`, response);
+         console.log(`Result: ${typeof response}`, response);
       });
-      console.log('already set free play')
+      // console.log('already set free play')
     }
     else if ((data.player === myRole || data.player === 'all') && data.command === 'reset_world'){
       //call reset world service
-      // const resetW_request = {spawn_command: {}}
+      const resetW_request = {reset_command: {}}
       resetW_client.sendRequest(resetW_request, (response) => {
         console.log(`Result: ${typeof response}`, response);
       });
