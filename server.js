@@ -57,8 +57,8 @@ io.on('connection', (socket) => {
     }
     else if (scoringReport.status === 2)
     {
-      io.emit('timeout' ,scoringReport)
       io.emit('score', scoringReport);
+      io.emit('timeout' ,scoringReport)
     }
     else {
       io.emit('score', scoringReport);

@@ -62,8 +62,8 @@ const subscriber = node.createSubscription(
   'std_msgs/msg/Int16MultiArray',
   '/score_report',
   (message) => {
-    if (message.data[1] === 0 || message.data[1] === 1)
-    {console.log(`my score : ${message.data[0]} `);
+    
+    console.log(`my score : ${message.data[0]} `);
       const scoringReport = {
       role : myRole,
       team : username,
@@ -74,46 +74,62 @@ const subscriber = node.createSubscription(
     }
     // cont scoringReport = `Scoring report: ${username}, Value: ${message.data}`;
     //socket.emit('login', loginReport);
-    }
+    
   );
 
 socket.on('command', (data) => {
   console.log('Received command:', data);
-    if ((data.player === myRole || data.player === 'all') && data.command === 'start') {
-      console.log('starting the controller')
-      //call start game service
-      const start_request = {start_command: {}}
-      start_client.sendRequest(start_request, (response) => {
+  if ((data.player === myRole || data.player === 'all') && data.command === 'start') {
+    console.log('starting the controller');
+    try {
+      // call start game service
+      // const start_request = { start_command: {} };
+      start_client.sendRequest({ start_command: {} }, (response) => {
         console.log(`Result: ${typeof response}`, response);
       });
-      console.log('game started')
+      console.log('game started');
     } 
-    else if ((data.player === myRole || data.player === 'all') && data.command === 'freeplay'){
-      //call free play service
-      const freeplay_request = {free_play_command: {}}
-      freeplay_client.sendRequest({free_play_command: {} }, (responser) => {
-        
-        // console.log(`Result: ${typeof response}`, response);
-      });
-       console.log('already set free play')
+    catch (error) {
+      console.error('Error while starting the game:', error);
     }
-    else if ((data.player === myRole || data.player === 'all') && data.command === 'reset_world'){
-      //call reset world service
-      const resetW_request = {reset_command: {}}
-      resetW_client.sendRequest(resetW_request, (response) => {
+  } else if ((data.player === myRole || data.player === 'all') && data.command === 'freeplay') {
+    console.log('starting freeplay');
+    try {
+      // call free play service
+      // const freeplay_request = { free_play_command: {} };
+      freeplay_client.sendRequest({ free_play_command: {} }, (response) => {
         console.log(`Result: ${typeof response}`, response);
       });
-      console.log('already reset the world')
+      console.log('already set freeplay');
+    } 
+    catch (error) {
+      console.error('Error while starting freeplay:', error);
     }
-  
-    else if ((data.player === myRole || data.player === 'all') && data.command === 'spawn_object') {
-      console.log('spawning the object')
-      const spawn_request = {spawn_command: {}}
-      spawn_client.sendRequest(spawn_request, (response) => {
+  } else if ((data.player === myRole || data.player === 'all') && data.command === 'reset_world') {
+    try {
+      // call reset world service
+      // const resetW_request = { reset_command: {} };
+      resetW_client.sendRequest({ reset_command: {} }, (response) => {
         console.log(`Result: ${typeof response}`, response);
       });
-      console.log('already sent object')
+      console.log('already reset the world');
+    } catch (error) {
+      console.error('Error while resetting the world:', error);
     }
+  } else if ((data.player === myRole || data.player === 'all') && data.command === 'spawn_object') {
+    console.log('spawning the object');
+    try {
+      // call spawn object service
+      // const spawn_request = { spawn_command: {} };
+      spawn_client.sendRequest({ spawn_command: {} }, (response) => {
+        console.log(`Result: ${typeof response}`, response);
+      });
+      console.log('already sent object');
+    } catch (error) {
+      console.error('Error while spawning the object:', error);
+    }
+  }
+
   });
 
   rclnodejs.spin(node);
@@ -124,6 +140,10 @@ process.on('SIGINT', () => {
   socket.disconnect();
   rclnodejs.shutdown();
   process.exit(0);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
 
