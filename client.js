@@ -80,65 +80,59 @@ const subscriber = node.createSubscription(
 socket.on('command', (data) => {
   console.log('Received command:', data);
   if ((data.player === myRole || data.player === 'all') && data.command === 'start') {
-    console.log('starting the controller');
+    console.log('starting the controller');ithu
     try {
-      // call start game service
-      // const start_request = { start_command: {} };
-      start_client.sendRequest({ start_command: {} }, (response) => {
+      const start_request = { start_command: {} }; // call start game service
+      start_client.sendRequest( start_request , (response) => {
         console.log(`Result: ${typeof response}`, response);
       });
-      console.log('game started');
-    } 
+      console.log('game started');} 
     catch (error) {
       console.error('Error while starting the game:', error);
     }
   } else if ((data.player === myRole || data.player === 'all') && data.command === 'freeplay') {
     console.log('starting freeplay');
     try {
-      // call free play service
-      // const freeplay_request = { free_play_command: {} };
-      freeplay_client.sendRequest({ free_play_command: {} }, (response) => {
-        console.log(`Result: ${typeof response}`, response);
+      const freeplay_request = { free_play_command: {} }; // call free play service
+      freeplay_client.sendRequest(freeplay_request, (response) => {
+      console.log(`Result: ${typeof response}`, response);
       });
-      console.log('already set freeplay');
-    } 
+      console.log('already set freeplay');} 
     catch (error) {
       console.error('Error while starting freeplay:', error);
     }
   } else if ((data.player === myRole || data.player === 'all') && data.command === 'reset_world') {
     try {
-      // call reset world service
-      // const resetW_request = { reset_command: {} };
-      resetW_client.sendRequest({ reset_command: {} }, (response) => {
+      const resetW_request = { reset_command: {} }; // call reset world service
+      resetW_client.sendRequest(resetW_request, (response) => {
         console.log(`Result: ${typeof response}`, response);
       });
-      console.log('already reset the world');
-    } catch (error) {
+      console.log('already reset the world');} 
+    catch (error) {
       console.error('Error while resetting the world:', error);
     }
   } else if ((data.player === myRole || data.player === 'all') && data.command === 'spawn_object') {
     console.log('spawning the object');
     try {
-      // call spawn object service
-      // const spawn_request = { spawn_command: {} };
-      spawn_client.sendRequest({ spawn_command: {} }, (response) => {
+      const spawn_request = { spawn_command: {} }; // call spawn object service
+      spawn_client.sendRequest(spawn_request, (response) => {
         console.log(`Result: ${typeof response}`, response);
       });
-      console.log('already sent object');
-    } catch (error) {
+      console.log('already sent object');} 
+    catch (error) {
       console.error('Error while spawning the object:', error);
     }
   }
 
   });
-
-  rclnodejs.spin(node);
+  // rclnodejs.spin(node)
+  node.spin();
 });
 
 process.on('SIGINT', () => {
   console.log("   ok GOTCHA killing myself..");
   socket.disconnect();
-  rclnodejs.shutdown();
+  // rclnodejs.shutdown();
   process.exit(0);
 });
 
