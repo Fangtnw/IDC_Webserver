@@ -114,13 +114,12 @@ html,body{
     background: gainsboro;
 }
 .scoreboard_force_button{
-    margin-top: 2%;
-    width: 10%;
-    border : solid;
-    border-color: chartreuse;
+    margin-top: 5%;
+    width: 60px;
+    height: 15px;
     cursor: pointer;
     background: chartreuse;
-    font-size: 20px;
+
     border-radius: 5px;
     justify-self: center;
 }

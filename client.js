@@ -1,5 +1,6 @@
 const io = require("socket.io-client");
-//const socket = io.connect('http://192.168.194.1:4000');
+// const socket = io.connect('http://192.168.1.248:4000');
+//const socket = io.connect('https://idc.itutor.name');
 const socket = io.connect("http://localhost:4000");
 //const socket = io.connect('https://72f4-58-97-86-85.ngrok.io/');
 //const socket = io.connect('https://f680-58-97-86-85.ngrok.io/');

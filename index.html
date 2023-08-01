@@ -35,14 +35,14 @@
       <div class="scoreboard_name" id="scoreboardName2">Player Two</div>
       <div class="scoreboard_point" id="scoreReport1">0</div>
       <div class="scoreboard_point" id="scoreReport2">0</div>
-      <div class="scoreboard_control">
+      <!-- <div class="scoreboard_control">
         <button class="scoreboard_control_button" id ="minusP1">-</button>
         <button class="scoreboard_control_button" id ="plusP1">+</button>
-      </div>
-      <div class="scoreboard_control">
+      </div> -->
+      <!-- <div class="scoreboard_control">
         <button class="scoreboard_control_button" id ="minusP2">-</button>
         <button class="scoreboard_control_button" id ="plusP2">+</button>
-      </div>
+      </div> -->
       <div class="scoreboard_mission" id="missionReport1"></div>
       <div class="scoreboard_mission" id="missionReport2"></div>
       <button class="scoreboard_force_button" id ="forceP1"> </button>
@@ -59,8 +59,8 @@
     const startButton = document.getElementById('startButton');
     const spawn1Button = document.getElementById('spawn1Button');
     const spawn2Button = document.getElementById('spawn2Button');
-    const minusP1 = document.getElementById('minusP1');
-    const minusP2 = document.getElementById('minusP2');
+    // const minusP1 = document.getElementById('minusP1');
+    // const minusP2 = document.getElementById('minusP2');
     const plusP1 = document.getElementById('plusP1');
     const plusP2 = document.getElementById('plusP2');
     const forceP1 = document.getElementById('forceP1');
@@ -78,21 +78,6 @@
       passwordOutput.textContent= ` Set Room ID to: ${password}`;
       passwordInput.value = ''; // Clear the input field
     });
-
-    // commandForm.addEventListener('submit', (e) => {
-    //   e.preventDefault();
-
-    //   const player = document.getElementById('playerSelect').value;
-    //   const cmd = document.getElementById('commandSelect').value;
-
-    //   let command = {
-    //     from: "REFEREE",
-    //     player: player,
-    //     command: cmd,
-    //   };
-
-    //   socket.emit('command', command);
-    // });
 
     freeplayButton.addEventListener('click', () => {
       let command = {
@@ -142,21 +127,21 @@
     var increment1=0;
     var increment2=0;
       
-    minusP1.addEventListener('click', () => {
-    increment1 -= 1;
-    });
+    // minusP1.addEventListener('click', () => {
+    // increment1 -= 1;
+    // });
 
-    minusP2.addEventListener('click', () => {
-    increment2 -= 1;
-    });
+    // minusP2.addEventListener('click', () => {
+    // increment2 -= 1;
+    // });
 
-    plusP1.addEventListener('click', () => {
-    increment1 += 1;
-    });
+    // plusP1.addEventListener('click', () => {
+    // increment1 += 1;
+    // });
 
-    plusP2.addEventListener('click', () => {
-    increment2 += 1;
-    });
+    // plusP2.addEventListener('click', () => {
+    // increment2 += 1;
+    // });
 
     resetScoreboard.addEventListener('click', () => {
       scoreboardName1.textContent = 'Player One';
@@ -232,10 +217,12 @@
 
     socket.on('timeout', (scoringReport) => {
       if (scoringReport.role === 'player1'){
-        missionReport1.style.backgroundColor = 'gold';
+        // missionReport1.style.backgroundColor = 'gold';
+        forceP1.style.backgroundColor = 'gold';
       }
       else if (scoringReport.role === 'player2')
-        missionReport2.style.backgroundColor = 'gold';
+        // missionReport2.style.backgroundColor = 'gold';
+        forceP2.style.backgroundColor = 'gold';
     });
 
 
