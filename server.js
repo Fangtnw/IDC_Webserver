@@ -73,10 +73,10 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('A client disconnected');
     connectedClients--;
-    const defaultboard = {
-      role: 'reset',
-    };
-    io.emit('score', defaultboard);
+    // const defaultboard = {
+    //   role: 'reset',
+    // };
+    //io.emit('score', defaultboard);
     console.log(`connected client : ${connectedClients}`)
   });
 });

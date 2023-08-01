@@ -1,7 +1,8 @@
 const io = require("socket.io-client");
 //const socket = io.connect('http://192.168.194.1:4000');
-//const socket = io.connect("http://localhost:4000");
-const socket = io.connect('https://7923-58-97-86-85.ngrok.io/');
+const socket = io.connect("http://localhost:4000");
+//const socket = io.connect('https://72f4-58-97-86-85.ngrok.io/');
+//const socket = io.connect('https://f680-58-97-86-85.ngrok.io/');
 
 const readline = require("readline");
 const rclnodejs = require("rclnodejs");
@@ -9,8 +10,8 @@ const rclnodejs = require("rclnodejs");
 const yaml = require("yaml");
 const fs = require("fs");
 
-const configPath = "./public/player.yaml";
-// const configPath = '/home/User/IDC/IDC_ws/src/IDC-Simulation/robot_description/config/properties.yaml';
+//const configPath = "./public/player.yaml";
+const configPath = '/home/fang/obodroid_ws/src/IDC-Simulation/robot_description/config/properties.yaml';
 const config = yaml.parse(fs.readFileSync(configPath, "utf8"));
 
 const password = config.RoomId;
