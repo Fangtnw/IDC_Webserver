@@ -152,6 +152,8 @@
         missionReport2.style.backgroundColor = 'crimson';
         increment1=0;
         increment2=0;
+        forceP1.style.backgroundColor = 'crimson';
+        forceP2.style.backgroundColor = 'crimson';
     });
 
     forceP1.addEventListener('click', () => {
@@ -188,6 +190,7 @@
         missionReport1.style.backgroundColor = 'crimson';
         scoreReport2.textContent = '0';
         missionReport2.style.backgroundColor = 'crimson';
+  
       }
       else {
         scoreReport1.textContent = "User Not Found"
@@ -200,19 +203,23 @@
       if (loginReport.role === 'player1'){
         missionReport1.style.backgroundColor = 'crimson';
         scoreboardName1.textContent = loginReport.team;
+        forceP1.style.backgroundColor = 'crimson';
       }
       else if (loginReport.role === 'player2'){
-      missionReport2.style.backgroundColor = 'crimson';
-      scoreboardName2.textContent = loginReport.team;
+        missionReport2.style.backgroundColor = 'crimson';
+        scoreboardName2.textContent = loginReport.team;
+        forceP2.style.backgroundColor = 'crimson';
     }
     });
     
     socket.on('pass', (scoringReport) => {
       if (scoringReport.role === 'player1'){
         missionReport1.style.backgroundColor = 'chartreuse';
+        forceP1.style.backgroundColor = 'chartreuse';
       }
       else if (scoringReport.role === 'player2')
         missionReport2.style.backgroundColor = 'chartreuse';
+        forceP2.style.backgroundColor = 'chartreuse';
     });
 
     socket.on('timeout', (scoringReport) => {
