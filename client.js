@@ -5,7 +5,7 @@ const fs = require("fs");
 const readline = require("readline");
 const rclnodejs = require("rclnodejs");
 
-const configPath = '/home/fhp/IDC/IDC_ws/src/IDC-Simulation/robot_description/config/properties.yaml';
+const configPath = '/home/User/IDC/IDC_ws/src/IDC-Simulation/robot_description/config/properties.yaml';
 const config = yaml.parse(fs.readFileSync(configPath, "utf8"));
 const url = config.URL;
 const socket = io.connect(url);
