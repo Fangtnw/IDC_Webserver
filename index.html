@@ -217,9 +217,10 @@
         missionReport1.style.backgroundColor = 'chartreuse';
         forceP1.style.backgroundColor = 'chartreuse';
       }
-      else if (scoringReport.role === 'player2')
+      else if (scoringReport.role === 'player2'){
         missionReport2.style.backgroundColor = 'chartreuse';
         forceP2.style.backgroundColor = 'chartreuse';
+      }
     });
 
     socket.on('timeout', (scoringReport) => {
