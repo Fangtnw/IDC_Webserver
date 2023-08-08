@@ -89,16 +89,16 @@
     });
 
     resetWButton.addEventListener('click', () => {
+      missionReport1.style.backgroundColor = 'crimson';
+      missionReport2.style.backgroundColor = 'crimson';
+      forceP1.style.backgroundColor = 'crimson';
+      forceP2.style.backgroundColor = 'crimson';
       let command = {
         from: 'Referee',
         player: 'all',
         command: 'reset_world',
       };
       socket.emit('command', command);
-      missionReport1.style.backgroundColor = 'crimson';
-      missionReport2.style.backgroundColor = 'crimson';
-      forceP1.style.backgroundColor = 'crimson';
-      forceP2.style.backgroundColor = 'crimson';
     });
 
     startButton.addEventListener('click', () => {
