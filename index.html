@@ -95,6 +95,10 @@
         command: 'reset_world',
       };
       socket.emit('command', command);
+      missionReport1.style.backgroundColor = 'crimson';
+      missionReport2.style.backgroundColor = 'crimson';
+      forceP1.style.backgroundColor = 'crimson';
+      forceP2.style.backgroundColor = 'crimson';
     });
 
     startButton.addEventListener('click', () => {
@@ -145,15 +149,15 @@
 
     resetScoreboard.addEventListener('click', () => {
       scoreboardName1.textContent = 'Player One';
-        scoreReport1.textContent = '0';
-        missionReport1.style.backgroundColor = 'crimson';
-        scoreboardName2.textContent = 'Player Two';
-        scoreReport2.textContent = '0';
-        missionReport2.style.backgroundColor = 'crimson';
-        increment1=0;
-        increment2=0;
-        forceP1.style.backgroundColor = 'crimson';
-        forceP2.style.backgroundColor = 'crimson';
+      scoreReport1.textContent = '0';
+      missionReport1.style.backgroundColor = 'crimson';
+      scoreboardName2.textContent = 'Player Two';
+      scoreReport2.textContent = '0';
+      missionReport2.style.backgroundColor = 'crimson';
+      increment1=0;
+      increment2=0;
+      forceP1.style.backgroundColor = 'crimson';
+      forceP2.style.backgroundColor = 'crimson';
     });
 
     forceP1.addEventListener('click', () => {
